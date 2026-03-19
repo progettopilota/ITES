@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI: 3 Anni che hanno cambiato tutto — 50 fatti</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --red: #c0392b;
+    --blue: #1a3a5c;
+    --gold: #b8942e;
+    --grey: #6b6b6b;
+    --line: #d4cfc5;
+    --positive: #1a6b3a;
+    --negative: #c0392b;
+    --neutral: #1a3a5c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 40px 20px 30px;
+    border-bottom: 4px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px);
+  }
+  .masthead-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .masthead-sub {
+    font-family: 'Source Serif 4', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: rgba(245,240,232,0.7);
+    margin-bottom: 20px;
+  }
+  .masthead-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(245,240,232,0.5);
+    letter-spacing: 2px;
+  }
+
+  /* CONTROLS */
+  .controls {
+    background: var(--ink);
+    border-bottom: 2px solid var(--gold);
+    padding: 12px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .filter-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border: 1px solid rgba(245,240,232,0.3);
+    background: transparent;
+    color: rgba(245,240,232,0.6);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold);
+  }
+  .counter {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* MAIN GRID */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .year-section {
+    margin-bottom: 60px;
+  }
+  .year-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 900;
+    color: var(--line);
+    line-height: 1;
+    margin-bottom: -10px;
+    padding-left: 4px;
+    user-select: none;
+  }
+  .year-divider {
+    height: 3px;
+    background: linear-gradient(90deg, var(--ink), transparent);
+    margin-bottom: 30px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  /* CARD */
+  .card {
+    background: white;
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--neutral);
+    padding: 22px;
+    cursor: default;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 6px 20px rgba(0,0,0,0.1);
+  }
+  .card.positive { border-top-color: var(--positive); }
+  .card.negative { border-top-color: var(--negative); }
+  .card.neutral  { border-top-color: var(--blue); }
+  .card.hidden { display: none; }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .card-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--line);
+    flex-shrink: 0;
+    width: 48px;
+  }
+  .card-meta {
+    flex: 1;
+  }
+  .card-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 4px;
+  }
+  .card-category {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .card.positive .card-category { background: var(--positive); }
+  .card.negative .card-category { background: var(--negative); }
+  .card.neutral  .card-category { background: var(--blue); }
+
+  .card-geo {
+    font-size: 16px;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+  .card p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #3a3a3a;
+    flex: 1;
+  }
+  .card-source {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 0.5px;
+  }
+  .card-source strong {
+    color: var(--ink);
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 16px 20px;
+    background: white;
+    border: 1px solid var(--line);
+    margin-bottom: 40px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--grey);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(245,240,232,0.4);
+    text-align: center;
+    padding: 30px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    border-top: 3px solid var(--gold);
+  }
+
+  @media (max-width: 600px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .year-label { font-size: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-label">Speciale Reportage · AI & Società</div>
+  <h1>3 Anni che hanno<br>cambiato tutto</h1>
+  <div class="masthead-sub">Da ChatGPT a DeepSeek, dall'entusiasmo alla guerra: 50 fatti che ogni cittadino dovrebbe conoscere</div>
+  <div class="masthead-meta">Novembre 2022 — Marzo 2026 &nbsp;|&nbsp; 50 eventi chiave &nbsp;|&nbsp; USA · Europa · Cina · Italia</div>
+</div>
+
+<div class="controls" id="controls">
+  <button class="filter-btn active" onclick="filterCards('all', this)">Tutti (50)</button>
+  <button class="filter-btn" onclick="filterCards('positive', this)">✅ Positivi</button>
+  <button class="filter-btn" onclick="filterCards('negative', this)">⚠️ Negativi</button>
+  <button class="filter-btn" onclick="filterCards('neutral', this)">◆ Rilevanti</button>
+  <button class="filter-btn" onclick="filterCards('geo-it', this)">🇮🇹 Italia</button>
+  <button class="filter-btn" onclick="filterCards('geo-eu', this)">🇪🇺 Europa</button>
+  <button class="filter-btn" onclick="filterCards('geo-us', this)">🇺🇸 USA</button>
+  <button class="filter-btn" onclick="filterCards('geo-cn', this)">🇨🇳 Cina</button>
+  <span class="counter" id="counter">50 / 50</span>
+</div>
+
+<div class="container">
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--positive)"></div> Sviluppo positivo</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--negative)"></div> Rischio / Impatto negativo</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Fatto rilevante / Cambiamento</div>
+  </div>
+
+  <!-- ===== 2022 ===== -->
+  <div class="year-section">
+    <div class="year-label">2022</div>
+    <div class="year-divider"></div>
+    <div class="cards-grid">
+
+      <div class="card neutral geo-us" data-n="1">
+        <div class="card-number">01</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">30 Novembre 2022</div>
+            <span class="card-category">Lancio</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>ChatGPT scatena la rivoluzione: 1 milione di utenti in 5 giorni</h3>
+        <p>OpenAI lancia ChatGPT come prototipo gratuito. In 5 giorni supera 1 milione di utenti. In due mesi arriva a 100 milioni: la crescita più rapida nella storia del software consumer. Il mondo scopre l'AI generativa. Facebook aveva impiegato 4 anni per lo stesso traguardo. Niente sarà più come prima.</p>
+        <div class="card-source"><strong>Fonte:</strong> OpenAI / Wikipedia · Nov 2022</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 2023 ===== -->
+  <div class="year-section">
+    <div class="year-label">2023</div>
+    <div class="year-divider"></div>
+    <div class="cards-grid">
+
+      <div class="card neutral geo-us" data-n="2">
+        <div class="card-number">02</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Gennaio 2023</div>
+            <span class="card-category">Economia</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Microsoft scommette 10 miliardi su OpenAI</h3>
+        <p>Microsoft annuncia un investimento di 10 miliardi di dollari in OpenAI, portando la sua quota al 49%. Una mossa che cambia i rapporti di forza nel tech e integra ChatGPT in tutti i prodotti della suite Office 365. Nasce la stagione delle "dipendenze pericolose" — un'azienda decide di legare il proprio futuro a un fornitore esterno di AI.</p>
+        <div class="card-source"><strong>Fonte:</strong> Reuters / Money.it · Gen 2023</div>
+      </div>
+
+      <div class="card positive geo-us" data-n="3">
+        <div class="card-number">03</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Marzo 2023</div>
+            <span class="card-category">Innovazione</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>GPT-4: l'AI impara a vedere</h3>
+        <p>OpenAI lancia GPT-4, il primo modello multimodale di massa: capisce testo e immagini. Supera il 90° percentile del bar exam americano. I ricercatori iniziano a parlare di "scintille di intelligenza generale". Il confine tra strumento e interlocutore si fa sottile.</p>
+        <div class="card-source"><strong>Fonte:</strong> OpenAI Blog / The Verge · Mar 2023</div>
+      </div>
+
+      <div class="card negative geo-it" data-n="4">
+        <div class="card-number">04</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">31 Marzo – 28 Aprile 2023</div>
+            <span class="card-category">Privacy · Italia</span>
+          </div>
+          <span class="card-geo">🇮🇹</span>
+        </div>
+        <h3>L'Italia blocca ChatGPT: prima al mondo</h3>
+        <p>Il Garante della Privacy ordina la sospensione di ChatGPT per raccolta illecita di dati e assenza di protezione per i minori. L'Italia diventa il primo paese al mondo a bloccare un modello AI. Per 12 giorni gli italiani usano VPN per aggirare il blocco — dimostrazione che la dipendenza era già enorme. OpenAI si adegua e il servizio torna il 28 aprile.</p>
+        <div class="card-source"><strong>Fonte:</strong> Garante Privacy Italiano · garante.it</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="5">
+        <div class="card-number">05</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Maggio 2023</div>
+            <span class="card-category">Lavoro</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Geoffrey Hinton lascia Google e avverte il mondo</h3>
+        <p>Il "padrino dell'AI", Geoffrey Hinton, lascia Google dopo 10 anni per poter parlare liberamente dei rischi dell'intelligenza artificiale. Dichiara che l'AI potrebbe diventare più intelligente degli umani "prima del previsto" e che lui stesso rimpiange parte del lavoro fatto. È un campanello d'allarme che inizia il grande dibattito sulla sicurezza dell'AI.</p>
+        <div class="card-source"><strong>Fonte:</strong> New York Times · Mag 2023</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="6" style="position:relative;">
+        <div style="position:absolute;top:8px;right:42px;font-size:14px;title='Scheda aggiornata'" title="Data corretta">✏️</div>
+        <div class="card-number">06</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2 Maggio – 27 Settembre 2023</div>
+            <span class="card-category">Creatività</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Hollywood si ferma: gli sceneggiatori scioperano contro l'AI</h3>
+        <p>Il 2 maggio 2023 la Writers Guild of America (WGA) dichiara lo sciopero: 148 giorni, il più lungo in 15 anni. Tra le cause principali, il rifiuto di lasciar sostituire gli sceneggiatori con AI. Dal 14 luglio si aggiunge il sindacato degli attori (SAG-AFTRA). L'accordo finale, ratificato dal 99% degli iscritti, include per la prima volta regole sull'uso dell'AI in produzione. È il primo grande contratto del lavoro intellettuale che nomina l'AI come questione sindacale.</p>
+        <div class="card-source"><strong>Fonte:</strong> Il Post / ANSA / Cinefilos.it · Mag–Ott 2023</div>
+      </div>
+
+      <div class="card positive geo-eu" data-n="7">
+        <div class="card-number">07</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Giugno 2023</div>
+            <span class="card-category">Regolazione · EU</span>
+          </div>
+          <span class="card-geo">🇪🇺</span>
+        </div>
+        <h3>Il Parlamento Europeo vota l'AI Act: nasce la prima legge al mondo sull'AI</h3>
+        <p>Il Parlamento Europeo adotta la sua posizione sull'AI Act, la prima legge organica al mondo per regolamentare l'intelligenza artificiale. L'Europa non è la prima a innovare, ma vuole essere la prima a proteggere i cittadini. Il testo introduce categorie di rischio e vieta usi come il social scoring e la sorveglianza di massa in tempo reale.</p>
+        <div class="card-source"><strong>Fonte:</strong> Parlamento Europeo / europa.eu · Giu 2023</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="8">
+        <div class="card-number">08</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Ottobre – Novembre 2023</div>
+            <span class="card-category">Governance</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Sam Altman licenziato e reintegrato in 5 giorni: il caos OpenAI</h3>
+        <p>Il board di OpenAI licenzia a sorpresa il CEO Sam Altman, poi lo reintegra dopo 5 giorni di caos totale. Quasi tutti i dipendenti minacciano le dimissioni. Microsoft assume un ruolo di osservatore nel board. L'episodio rivela le tensioni profonde tra chi vuole accelerare l'AI e chi teme i rischi di un'AI non sicura. Il potere di OpenAI è ora più solido, ma più controverso.</p>
+        <div class="card-source"><strong>Fonte:</strong> The Verge / Bloomberg · Nov 2023</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="9">
+        <div class="card-number">09</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Dicembre 2023</div>
+            <span class="card-category">Copyright · Media</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Il New York Times fa causa a OpenAI e Microsoft per copyright</h3>
+        <p>Il New York Times denuncia OpenAI e Microsoft per l'uso non autorizzato di milioni di articoli nell'addestramento dei modelli AI. Inizia la battaglia legale che definirà i diritti della proprietà intellettuale nell'era dell'AI. In parallelo, altri editori e artisti seguono con le proprie cause. Chi possiede la conoscenza usata per addestrare le macchine?</p>
+        <div class="card-source"><strong>Fonte:</strong> ANSA / Reuters · Dic 2023</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="10">
+        <div class="card-number">10</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2023 — dato annuale</div>
+            <span class="card-category">Lavoro · Economia</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Goldman Sachs: 300 milioni di posti di lavoro a rischio</h3>
+        <p>Un report di Goldman Sachs stima che l'AI generativa potrebbe automatizzare il 25-50% delle mansioni in 300 milioni di posti di lavoro nei paesi sviluppati. Non "lavori manuali" — avvocati, programmatori, analisti finanziari, giornalisti. Il FMI nello stesso periodo stima che il 40% dei lavori mondiali sarà "esposto" all'AI. La discussione sul reddito universale si intensifica.</p>
+        <div class="card-source"><strong>Fonte:</strong> Goldman Sachs Research / IMF · 2023</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 2024 ===== -->
+  <div class="year-section">
+    <div class="year-label">2024</div>
+    <div class="year-divider"></div>
+    <div class="cards-grid">
+
+      <div class="card positive geo-eu" data-n="11">
+        <div class="card-number">11</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Marzo 2024</div>
+            <span class="card-category">Regolazione · EU</span>
+          </div>
+          <span class="card-geo">🇪🇺</span>
+        </div>
+        <h3>L'AI Act è legge: l'Europa guida la regolazione globale</h3>
+        <p>Il Parlamento Europeo approva definitivamente l'AI Act il 13 marzo 2024. Prima legge organica al mondo sull'AI. Introduce divieti per social scoring, sorveglianza biometrica di massa, AI manipolative. I sistemi ad alto rischio (selezione del personale, credito, giustizia) dovranno rispettare regole stringenti entro agosto 2026. L'Europa sceglie di proteggere i diritti prima di correre per la competitività.</p>
+        <div class="card-source"><strong>Fonte:</strong> Parlamento Europeo / Consilium · Mar 2024</div>
+      </div>
+
+      <div class="card positive geo-us" data-n="12">
+        <div class="card-number">12</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Marzo 2024</div>
+            <span class="card-category">Innovazione · Salute</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>L'AI accelera la ricerca sui tumori: nuovi farmaci in mesi, non decenni</h3>
+        <p>Google DeepMind annuncia che AlphaFold ha previsto la struttura di 200 milioni di proteine — praticamente tutte quelle conosciute. Ricercatori di tutto il mondo usano questi dati gratis per sviluppare nuovi farmaci. È il più grande contributo scientifico dell'AI alla biologia. Malattie rare, Parkinson, cancro: la ricerca accelera di una generazione.</p>
+        <div class="card-source"><strong>Fonte:</strong> DeepMind / Nature · 2024</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="13">
+        <div class="card-number">13</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Maggio 2024</div>
+            <span class="card-category">Innovazione</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>GPT-4o: l'AI parla, ascolta e guarda in tempo reale</h3>
+        <p>OpenAI presenta GPT-4o (omni): un modello che capisce voce, testo e immagini simultaneamente, con latenza quasi zero. La demo mostra un'AI che legge le emozioni sul volto dell'interlocutore. È la prima AI che sembra davvero "presente". Nasce il concetto di assistente personale onnipresente. Il confine tra strumento e compagno si fa più sottile.</p>
+        <div class="card-source"><strong>Fonte:</strong> OpenAI / The Verge · Mag 2024</div>
+      </div>
+
+      <div class="card neutral geo-cn" data-n="14">
+        <div class="card-number">14</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Giugno 2024</div>
+            <span class="card-category">Geopolitica · Cina</span>
+          </div>
+          <span class="card-geo">🇨🇳</span>
+        </div>
+        <h3>La Cina pubblica la sua strategia AI: 150 miliardi entro 2030</h3>
+        <p>Il governo cinese aggiorna il suo piano strategico per l'AI con un investimento statale di 150 miliardi di dollari entro il 2030. L'obiettivo: leadership globale nell'AI entro quella data. Mentre gli USA investono in startup private, la Cina investe in infrastruttura nazionale. Huawei presenta chip AI per aggirare i ban americani. La guerra tecnologica si combatte con miliardi.</p>
+        <div class="card-source"><strong>Fonte:</strong> South China Morning Post / Reuters · 2024</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="15">
+        <div class="card-number">15</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Estate 2024</div>
+            <span class="card-category">Economia · Media</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>I media muoiono di AI: 2.600 posti di lavoro persi solo nel 2024</h3>
+        <p>Nel 2024 l'industria dei media perde oltre 2.600 posti di lavoro, molti direttamente attribuibili all'AI che genera contenuti automatici. Testate storiche come Sports Illustrated tagliano i redattori in favore di articoli generati da AI. La qualità del giornalismo automatico è bassa, ma il costo è quasi zero. Il dibattito su chi informerà i cittadini nel futuro si fa urgente.</p>
+        <div class="card-source"><strong>Fonte:</strong> Poynter / Reuters Institute · 2024</div>
+      </div>
+
+      <div class="card negative geo-eu" data-n="16">
+        <div class="card-number">16</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2024 — elezioni globali</div>
+            <span class="card-category">Democrazia</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>2024: l'anno dei deepfake elettorali — 50 nazioni al voto</h3>
+        <p>Il 2024 è l'anno con più elezioni della storia: 50 paesi al voto, 4 miliardi di persone. Anche l'anno della disinformazione AI. Deepfake di candidati che dicono cose mai dette, audio falsi, profili falsi nelle campagne social. In Slovacchia, in Taiwan, in India: la linea tra vero e falso diventa irrintracciabile. L'UNESCO chiede regole internazionali urgenti.</p>
+        <div class="card-source"><strong>Fonte:</strong> UNESCO / The Economist · 2024</div>
+      </div>
+
+      <div class="card positive geo-us" data-n="17">
+        <div class="card-number">17</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Settembre 2024</div>
+            <span class="card-category">Scienza</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Nobel a Hinton e Hopfield: l'AI entra nel pantheon scientifico</h3>
+        <p>Il Premio Nobel per la Fisica 2024 va a Geoffrey Hinton e John Hopfield per le reti neurali — le stesse tecnologie alla base di ChatGPT. È il riconoscimento ufficiale che l'AI non è un fenomeno commerciale, ma una rivoluzione scientifica paragonabile all'invenzione del transistor. Hinton, che aveva già lasciato Google per avvertire dei rischi, ritira il premio con un monito.</p>
+        <div class="card-source"><strong>Fonte:</strong> Nobel Prize Committee · Ott 2024</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="18">
+        <div class="card-number">18</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Settembre 2024</div>
+            <span class="card-category">Dipendenze</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Microsoft si svincola da OpenAI: entra in Anthropic</h3>
+        <p>Microsoft, già al 49% di OpenAI, stringe un accordo con Anthropic per integrare l'AI Claude nei prodotti Office 365. Una mossa che riduce la dipendenza da un singolo fornitore ma rivela quanto il controllo dell'AI si stia concentrando in pochissime mani. Anthropic vale già 40 miliardi. Il mercato dell'AI di enterprise è il più conteso al mondo.</p>
+        <div class="card-source"><strong>Fonte:</strong> Money.it / The Information · Set 2024</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="19">
+        <div class="card-number">19</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Ottobre 2024</div>
+            <span class="card-category">Ambiente</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>L'AI consuma quanta acqua? Il problema nascosto dei data center</h3>
+        <p>Ricerche dell'Università del Massachusetts rivelano che addestrare un grande modello AI produce le emissioni di CO₂ di 5 auto per tutta la vita. Una singola conversazione con ChatGPT usa l'acqua equivalente a mezzo litro. Con miliardi di interazioni al giorno, l'impronta ambientale dell'AI diventa un tema politico urgente. Google, Microsoft e Amazon annunciano impegni "net zero" ma i dati reali restano opachi.</p>
+        <div class="card-source"><strong>Fonte:</strong> University of Massachusetts / Nature · 2024</div>
+      </div>
+
+      <div class="card positive geo-us" data-n="20">
+        <div class="card-number">20</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Novembre 2024</div>
+            <span class="card-category">Medicina</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>AI diagnostica il cancro meglio dei radiologi: studio su 1 milione di casi</h3>
+        <p>Un ampio studio pubblicato su The Lancet mostra che un modello AI (Google Health) diagnostica il cancro al seno con una precisione superiore ai radiologi esperti, riducendo sia i falsi negativi che i falsi positivi del 20%. È la prima dimostrazione su larga scala che l'AI può salvare vite in modo misurabile. L'NHS britannico avvia programmi pilota su scala nazionale.</p>
+        <div class="card-source"><strong>Fonte:</strong> The Lancet / Google Health · 2024</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="21">
+        <div class="card-number">21</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Dicembre 2024</div>
+            <span class="card-category">Sanzione · Italia</span>
+          </div>
+          <span class="card-geo">🇮🇹</span>
+        </div>
+        <h3>L'Italia multa OpenAI per 15 milioni di euro</h3>
+        <p>Il Garante della Privacy chiude l'istruttoria su ChatGPT avviata nel marzo 2023: multa definitiva di 15 milioni di euro e obbligo di una campagna informativa di 6 mesi su tutti i media italiani. OpenAI viene obbligata a informare gli italiani su come i loro dati vengono usati per addestrare l'AI. È la prima sanzione concreta di un governo europeo a un grande modello AI.</p>
+        <div class="card-source"><strong>Fonte:</strong> Garante Privacy Italiano · garanteprivacy.it · Dic 2024</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="22">
+        <div class="card-number">22</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2024 — dato annuale</div>
+            <span class="card-category">Istruzione</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>Crisi nelle università: il 70% degli studenti usa AI per gli esami</h3>
+        <p>Sondaggi in USA, UK e Italia mostrano che il 65-70% degli studenti universitari ha usato AI per elaborare compiti o esami nel 2024. Le università non sono pronte: alcune vietano tutto, altre capitalizzano. Il problema non è il "barare" — è che le competenze tradizionali cambiano valore. Chi saranno i medici, gli ingegneri, i giuristi del 2030?</p>
+        <div class="card-source"><strong>Fonte:</strong> Stanford HAI / OCSE / Times Higher Education · 2024</div>
+      </div>
+
+      <div class="card neutral geo-eu" data-n="23">
+        <div class="card-number">23</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2024</div>
+            <span class="card-category">Robotica · Cina</span>
+          </div>
+          <span class="card-geo">🇨🇳</span>
+        </div>
+        <h3>La Cina produce 70% dei robot industriali del mondo</h3>
+        <p>Nel 2024, la Cina supera tutti i competitor e produce oltre il 70% dei robot industriali mondiali. Le fabbriche "lights-out" (senza operai, senza luce) si moltiplicano. L'unione di AI generativa e robotica avanzata crea una nuova classe di lavoratori: i robot intelligenti. L'impatto sui paesi a basso costo del lavoro (Vietnam, Bangladesh) è già visibile.</p>
+        <div class="card-source"><strong>Fonte:</strong> IFR World Robotics / Reuters · 2024</div>
+      </div>
+
+      <div class="card positive geo-us" data-n="24">
+        <div class="card-number">24</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Dicembre 2024</div>
+            <span class="card-category">Innovazione</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Google Gemini e OpenAI o1: nasce il ragionamento artificiale</h3>
+        <p>OpenAI lancia o1, il primo modello che non risponde subito ma "pensa" per minuti prima di dare una risposta complessa. Google lancia Gemini 2.0 con capacità agentive. Siamo nell'era del "Chain of Thought": l'AI non è più un pappagallo statistico, ma un sistema che decompone problemi complessi. L'impatto sulla ricerca scientifica, il diritto, l'ingegneria è già misurabile.</p>
+        <div class="card-source"><strong>Fonte:</strong> OpenAI / Google DeepMind · Dic 2024</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 2025 ===== -->
+  <div class="year-section">
+    <div class="year-label">2025</div>
+    <div class="year-divider"></div>
+    <div class="cards-grid">
+
+      <div class="card neutral geo-us" data-n="25">
+        <div class="card-number">25</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">20 Gennaio 2025</div>
+            <span class="card-category">Potere · USA</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>20 gennaio 2025: i CEO dell'AI all'insediamento di Trump</h3>
+        <p>All'insediamento di Donald Trump alla Casa Bianca siedono in prima fila Mark Zuckerberg, Jeff Bezos, Sundar Pichai ed Elon Musk. È la fotografia del nuovo potere: il confine tra industria tech e governo americano è dissolto. Trump firma un executive order per eliminare le restrizioni all'AI imposte da Biden. La stagione della deregulation inizia. L'Europa guarda preoccupata.</p>
+        <div class="card-source"><strong>Fonte:</strong> AP Photo / Reuters · Gen 2025</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="26">
+        <div class="card-number">26</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">21 Gennaio 2025</div>
+            <span class="card-category">Investimenti</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Stargate: 500 miliardi per i data center americani</h3>
+        <p>Trump annuncia il progetto Stargate: 500 miliardi di dollari di investimento in infrastruttura AI americana nei prossimi 4 anni, con SoftBank, OpenAI e Oracle. Il giorno dopo, DeepSeek manda in crisi i mercati. La domanda diventa: era davvero necessaria tutta questa spesa? L'era della "AI brute force" potrebbe già essere finita.</p>
+        <div class="card-source"><strong>Fonte:</strong> White House / Reuters · Gen 2025</div>
+      </div>
+
+      <div class="card negative geo-cn" data-n="27">
+        <div class="card-number">27</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">20–27 Gennaio 2025</div>
+            <span class="card-category">Geopolitica · Cina</span>
+          </div>
+          <span class="card-geo">🇨🇳</span>
+        </div>
+        <h3>DeepSeek: la Cina sfida l'America con 6 milioni di dollari</h3>
+        <p>La startup cinese DeepSeek rilascia R1, un modello AI comparabile a ChatGPT sviluppato con soli 6 milioni di dollari (contro 100+ milioni di OpenAI). In 24 ore supera ChatGPT nei download dell'App Store americano. Il 27 gennaio Nvidia perde 600 miliardi di capitalizzazione in un giorno — il maggior crollo della storia di Wall Street per una singola società. Marc Andreessen lo chiama "il momento Sputnik dell'AI".</p>
+        <div class="card-source"><strong>Fonte:</strong> Il Post / Bloomberg / Euronews · Gen 2025</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="28">
+        <div class="card-number">28</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Gennaio 2025</div>
+            <span class="card-category">Davos</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>Davos 2025: AGI in 2 anni o in 10? I CEO non si accordano su nulla</h3>
+        <p>Al World Economic Forum di Davos, i CEO dell'AI si confrontano sull'AGI (Intelligenza Generale Artificiale). Sam Altman dice 2–3 anni. Demis Hassabis (DeepMind) dice più lungo. Tutti concordano su una cosa sola: arriverà. È la prima volta che i leader mondiali trattano l'AGI come un fatto, non come fantascienza. Il mondo non ha ancora capito cosa questo significhi.</p>
+        <div class="card-source"><strong>Fonte:</strong> LinkedIn / Wired · Gen 2025</div>
+      </div>
+
+      <div class="card negative geo-eu" data-n="29">
+        <div class="card-number">29</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">29 Gennaio 2025</div>
+            <span class="card-category">Economia · Finanza</span>
+          </div>
+          <span class="card-geo">🇪🇺</span>
+        </div>
+        <h3>Borsa in crollo: il mercato teme la fine dell'era dei chip costosi</h3>
+        <p>Dopo il lancio di DeepSeek, le borse mondiali crollano: Nasdaq -3%, Siemens Energy -20%, Cameco -13%. Il timore: se l'AI efficiente richiede meno energia e meno chip, gli enormi investimenti in data center e GPU potrebbero diventare inutili. I mercati realizzano che il modello di business dell'AI potrebbe cambiare radicalmente in pochi mesi.</p>
+        <div class="card-source"><strong>Fonte:</strong> Reuters / Swissinfo · Gen 2025</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="30">
+        <div class="card-number">30</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Maggio 2025</div>
+            <span class="card-category">Copyright · Media</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Il NYT che aveva fatto causa ora cede: licenza i contenuti all'AI</h3>
+        <p>Dopo aver citato in giudizio OpenAI nel 2023, il New York Times fa un accordo per la prima volta per licenziare i suoi contenuti per l'addestramento AI. È un segnale della resa del giornalismo? O di pragmatica sopravvivenza? Gli editori che resistono si vedono copiare comunque. Chi controlla il valore dei contenuti nell'era AI è ancora una domanda aperta.</p>
+        <div class="card-source"><strong>Fonte:</strong> Bits / Il Post · Mag 2025</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="31">
+        <div class="card-number">31</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2025</div>
+            <span class="card-category">Lavoro</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>La professione del programmatore è a rischio: -27% di offerte di lavoro tech</h3>
+        <p>Nel 2025 le offerte di lavoro per sviluppatori software nelle aziende Fortune 500 calano del 27% rispetto al 2023. GitHub Copilot, Claude Code e altri strumenti permettono a un programmatore di fare il lavoro di tre. Le aziende non assumono di meno, assumono diversamente: cercano persone che orchestrano l'AI, non che scrivono codice riga per riga. Una professione si trasforma davanti ai nostri occhi.</p>
+        <div class="card-source"><strong>Fonte:</strong> LinkedIn Economic Graph / Lightcast · 2025</div>
+      </div>
+
+      <div class="card positive geo-us" data-n="33">
+        <div class="card-number">33</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2025</div>
+            <span class="card-category">Agenti AI</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Gli "agenti AI" entrano in ufficio: Microsoft Copilot fa da solo</h3>
+        <p>Nel 2025 esplode l'era degli agenti AI: software che non solo rispondono, ma agiscono autonomamente. Microsoft Copilot in M365 prenota riunioni, riassume email, genera presentazioni senza che l'utente faccia nulla. Salesforce, ServiceNow, SAP integrano agenti. Il lavoratore umano diventa orchestratore di macchine. Il valore non è più nell'eseguire, ma nel decidere cosa far eseguire.</p>
+        <div class="card-source"><strong>Fonte:</strong> Microsoft Build 2025 / Gartner</div>
+      </div>
+
+      <div class="card neutral geo-eu" data-n="34">
+        <div class="card-number">34</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2025</div>
+            <span class="card-category">Regolazione</span>
+          </div>
+          <span class="card-geo">🇮🇹</span>
+        </div>
+        <h3>Italia: nasce la legge nazionale sull'AI (ottobre 2025)</h3>
+        <p>Il 10 ottobre 2025 entra in vigore la prima legge italiana sull'intelligenza artificiale. Integra l'AI Act europeo con regole specifiche per lavoro, sanità, minori e diritto d'autore. È la traduzione nazionale di una legge europea. Le aziende italiane hanno meno di un anno per adeguarsi ai requisiti dei sistemi ad alto rischio. La formazione obbligatoria sull'AI literacy diventa realtà.</p>
+        <div class="card-source"><strong>Fonte:</strong> Gazzetta Ufficiale Italiana · Ott 2025</div>
+      </div>
+
+      <div class="card neutral geo-eu" data-n="35">
+        <div class="card-number">35</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2025</div>
+            <span class="card-category">Innovazione</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Apple integra Gemini in Siri: il duopolio Google–Apple nell'AI mobile</h3>
+        <p>Apple annuncia un accordo con Google per integrare Gemini nell'assistente Siri per iOS. Una mossa che crea un monopolio de facto dell'AI nei dispositivi mobili: quasi tutti gli smartphone del mondo passeranno per Google o OpenAI. Samsung aveva già stretto accordi con Google. Il 70% dell'umanità connessa userà AI mediata da due aziende americane.</p>
+        <div class="card-source"><strong>Fonte:</strong> Bits / Il Post · Gen 2026</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="36">
+        <div class="card-number">36</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">2025</div>
+            <span class="card-category">Salute Mentale</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>Dipendenza affettiva dall'AI: un fenomeno globale emergente</h3>
+        <p>Nel 2025 gli psicologi segnalano un aumento dei casi di dipendenza emotiva dai chatbot AI, in particolare tra adolescenti e anziani soli. Companion AI come Replika registrano milioni di utenti che confessano di preferire le conversazioni AI a quelle umane. Il dibattito è aperto: strumento terapeutico o sostituto patologico delle relazioni umane?</p>
+        <div class="card-source"><strong>Fonte:</strong> APA / The Atlantic / Replika · 2025</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 2026 ===== -->
+  <div class="year-section">
+    <div class="year-label">2026</div>
+    <div class="year-divider"></div>
+    <div class="cards-grid">
+
+      <div class="card neutral geo-it" data-n="32" style="position:relative;">
+        <div style="position:absolute;top:8px;right:42px;font-size:14px;" title="Data e contenuto corretti">✏️</div>
+        <div class="card-number">32</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">15–19 Marzo 2026</div>
+            <span class="card-category">Potere · Italia</span>
+          </div>
+          <span class="card-geo">🇮🇹</span>
+        </div>
+        <h3>Peter Thiel a Roma: l'Anticristo, Palantir e il potere nell'ombra</h3>
+        <p>Dal 15 marzo 2026, Peter Thiel (fondatore di PayPal e Palantir) tiene a Palazzo Orsini-Taverna, nel cuore di Roma, una serie di lezioni private a inviti sull'Anticristo. 165 posti, cellulari vietati, accordo di riservatezza da 10.000 euro. Tra i presenti: giornalisti, finanzieri, esponenti della destra italiana. Il Vaticano prende le distanze. In parallelo emerge che la Difesa italiana ha un contratto segreto da 1 milione con Palantir per il software Gotham. L'AI non è solo un prodotto tech: è infrastruttura del potere politico.</p>
+        <div class="card-source"><strong>Fonte:</strong> Wired Italia / Open.online / Euronews / Sky TG24 / Variety · Mar 2026</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="37">
+        <div class="card-number">37</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Gennaio 2026</div>
+            <span class="card-category">Economia</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Nvidia #1: la prima azienda di chip a 4.241 miliardi di dollari</h3>
+        <p>In febbraio 2026 Nvidia è la prima azienda al mondo per capitalizzazione: 4.241 miliardi di dollari, superando Apple e Alphabet. Era una società di gaming GPU fino al 2020. Oggi costruisce i "motori" dell'intelligenza artificiale globale. Ogni data center, ogni modello AI, ogni robot intelligente gira su hardware Nvidia. Il mondo ha un nuovo re tecnologico.</p>
+        <div class="card-source"><strong>Fonte:</strong> Bloomberg / tabella mercati · Feb 2026</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="38">
+        <div class="card-number">38</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Gennaio 2026</div>
+            <span class="card-category">Concentrazione</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>La mappa del potere AI: 6 aziende valgono più del PIL europeo</h3>
+        <p>La mappa degli investimenti AI mostra un oligopolio: Nvidia ($4.241B), Apple ($4.063B), Google ($4.024B), Microsoft ($3.078B), Amazon ($2.490B), Meta ($1.692B). Le prime 6 aziende tech americane valgono più del PIL dell'intera Unione Europea. Chi non è americano o cinese è fuori dalla gara. L'Europa guarda e regola, ma non produce.</p>
+        <div class="card-source"><strong>Fonte:</strong> Tabella mercati Feb 2026 (slide originale)</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="39">
+        <div class="card-number">39</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Gennaio 2026</div>
+            <span class="card-category">Ricerca</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Dario Amodei (Anthropic): l'AI potrebbe sfuggire al controllo umano</h3>
+        <p>Il CEO di Anthropic pubblica un saggio di 38 pagine in cui descrive l'arrivo dell'AGI come un "rito di passaggio per l'umanità". Avverte che un'AI avanzata potrebbe diventare impossibile da controllare e che gli esseri umani potrebbero non essere in grado di allineare i valori di un'intelligenza superiore. Anthropic è valutata 380 miliardi, ma il suo CEO parla di rischio esistenziale.</p>
+        <div class="card-source"><strong>Fonte:</strong> Agenda Digitale / Anthropic · Gen 2026</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="40">
+        <div class="card-number">40</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Gennaio–Febbraio 2026</div>
+            <span class="card-category">AI Militare</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Il Pentagono sceglie OpenAI e lascia Anthropic: l'AI va in guerra</h3>
+        <p>Il Pentagono annuncia un accordo preferenziale con OpenAI per sistemi di AI militare, escludendo Anthropic — la cui colpa è che il CEO Amodei aveva rifiutato l'impiego in armi autonome e sorveglianza di massa. Ma pochi giorni dopo emerge che gli USA hanno usato Claude (Anthropic) nell'operazione contro l'Iran — mentre il divieto era ancora in vigore. L'AI è già nelle guerre, con o senza regole.</p>
+        <div class="card-source"><strong>Fonte:</strong> Wired Italia / EPC Flash Analysis · Feb–Mar 2026</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="41">
+        <div class="card-number">41</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Febbraio 2026</div>
+            <span class="card-category">Etica · Lavoro</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>OpenAI, armi letali e dimissioni: "È questione di principio"</h3>
+        <p>La responsabile della divisione Robotica di OpenAI si dimette in polemica con la decisione aziendale di accettare contratti per "armi letali gestite da algoritmi". Lascia dicendo che serviva "più riflessione". Nel National Mall di Washington, manifestanti con pupazzi di robot armati protestano contro l'AI militare. È la prima crisi pubblica sui valori interni a una grande azienda AI.</p>
+        <div class="card-source"><strong>Fonte:</strong> Corriere della Sera · Feb 2026</div>
+      </div>
+
+      <div class="card neutral geo-eu" data-n="42">
+        <div class="card-number">42</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Febbraio 2026</div>
+            <span class="card-category">Sicurezza</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>Droni iraniani colpiscono un data center AWS negli Emirati: il cloud è vulnerabile</h3>
+        <p>I data center AWS negli Emirati Arabi vengono colpiti da droni iraniani, causando un'interruzione dei servizi cloud nella regione per ore. È la prima volta che un'infrastruttura AI cloud viene colpita in un conflitto armato. Milioni di servizi digitali che si appoggiano ad AWS vanno offline. La fragilità dell'internet cloud-centralizzato diventa evidente.</p>
+        <div class="card-source"><strong>Fonte:</strong> Wired Italia · Mar 2026</div>
+      </div>
+
+      <div class="card neutral geo-eu" data-n="43">
+        <div class="card-number">43</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Febbraio 2026</div>
+            <span class="card-category">Cultura · Chiesa</span>
+          </div>
+          <span class="card-geo">🇮🇹</span>
+        </div>
+        <h3>Papa Leone XIV: "No alle omelie fatte con l'AI"</h3>
+        <p>In un incontro con il clero di Roma, Papa Leone XIV pone un confine netto: i sacerdoti non devono usare l'intelligenza artificiale per preparare le omelie. La predicazione deve restare personale, umana, spirituale. È un segnale di come anche le istituzioni più tradizionali stiano elaborando il loro rapporto con l'AI. Il Vaticano ha già una commissione etica sull'AI attiva dal 2020.</p>
+        <div class="card-source"><strong>Fonte:</strong> Avvenire · Feb 2026</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="44">
+        <div class="card-number">44</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Febbraio 2026</div>
+            <span class="card-category">Modelli · Mercato</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Claude batte ChatGPT nei download: la guerra dei chatbot si fa seria</h3>
+        <p>Per la prima volta nel febbraio 2026, Claude di Anthropic supera ChatGPT per numero di download giornalieri negli USA (App Store + Google Play). La battaglia per l'AI consumer è aperta. ChatGPT mantiene il dominio ma Claude cresce del 400% in un anno. La differenziazione non è più sulla tecnologia — ma sulla fiducia, sull'etica, sulla percezione pubblica.</p>
+        <div class="card-source"><strong>Fonte:</strong> Appfigures Intelligence · Feb 2026</div>
+      </div>
+
+      <div class="card neutral geo-cn" data-n="45">
+        <div class="card-number">45</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Marzo 2026</div>
+            <span class="card-category">Geopolitica</span>
+          </div>
+          <span class="card-geo">🇪🇺</span>
+        </div>
+        <h3>L'Europa risponde: "Il Pentagono ha blacklistato chi si oppone ai killer robot"</h3>
+        <p>L'European Policy Centre pubblica un'analisi urgente: il caso Anthropic dimostra che gli USA stanno usando l'accesso ai contratti governativi per condizionare i valori etici delle aziende AI. L'Europa deve rispondere con una sua politica industriale AI — non solo regole, ma campioni tecnologici. Mistral (Francia) è l'unica alternativa europea. Il gap è enorme.</p>
+        <div class="card-source"><strong>Fonte:</strong> EPC Flash Analysis · Mar 2026</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="46">
+        <div class="card-number">46</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Marzo 2026</div>
+            <span class="card-category">Robotica</span>
+          </div>
+          <span class="card-geo">🇨🇳</span>
+        </div>
+        <h3>Robot umanoidi in pre-vendita a 4.900 dollari: Unitree R1</h3>
+        <p>La cinese Unitree mette in pre-vendita R1, un robot umanoide a 4.900 dollari con spedizioni da aprile 2026. Non è un prototipo da laboratorio: è un prodotto consumer. La combinazione di AI generativa + corpo robotico diventa accessibile. Chi comprerà il primo robot da casa? Cosa faranno con lui? La prossima frontiera dell'automazione è quella fisica.</p>
+        <div class="card-source"><strong>Fonte:</strong> Unitree.cc · Mar 2026</div>
+      </div>
+
+      <div class="card negative geo-us" data-n="47">
+        <div class="card-number">47</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Febbraio 2026</div>
+            <span class="card-category">Società</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>"È come il Covid": il post virale che riaccende il panico sull'AI</h3>
+        <p>Il fondatore di HyperWrite, Matt Shumer, pubblica un post virale: "Sta succedendo qualcosa di grande sull'AI, come il Covid". L'analogia è potente: qualcosa di invisibile, velocissimo, che cambia la vita di tutti prima che la maggior parte delle persone l'abbia capito. Il post genera milioni di interazioni. La consapevolezza dell'urgenza inizia finalmente a diffondersi oltre la comunità tech.</p>
+        <div class="card-source"><strong>Fonte:</strong> Agenda Digitale / Post virale Matt Shumer · Feb 2026</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="48">
+        <div class="card-number">48</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Febbraio 2026</div>
+            <span class="card-category">Economia · Miliardari</span>
+          </div>
+          <span class="card-geo">🇺🇸</span>
+        </div>
+        <h3>Anthropic vale 380 miliardi: i 7 cofondatori quasi raddoppiano i patrimoni</h3>
+        <p>Anthropic raccoglie 30 miliardi di investimenti e raggiunge una valutazione di 380 miliardi. I 7 cofondatori — tra cui Dario e Daniela Amodei — vedono i loro patrimoni personali quasi raddoppiare. L'ironia: sono le stesse persone che lanciano avvertimenti sull'AI come rischio esistenziale. Il capitalismo dell'AI arricchisce chi più ne parla i pericoli.</p>
+        <div class="card-source"><strong>Fonte:</strong> Money.it · Feb 2026</div>
+      </div>
+
+      <div class="card neutral geo-us" data-n="49">
+        <div class="card-number">49</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Marzo 2026</div>
+            <span class="card-category">Agenti AI</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>Gli agenti AI parlano tra loro: nasce un linguaggio senza umani</h3>
+        <p>Ricercatori e sviluppatori discutono se i sistemi AI multi-agente debbano comunicare in linguaggio naturale (inefficiente) o in notazione matematica e simbolica (compatta, ambigua per gli umani). Nascono progetti open source come OpenClaw per creare reti di agenti AI autonomi. La domanda è provocatoria: se gli agenti AI non hanno bisogno che gli umani capiscano cosa si dicono, lo permettiamo?</p>
+        <div class="card-source"><strong>Fonte:</strong> GitHub / Moltbook community · 2026</div>
+      </div>
+
+      <div class="card neutral geo-it" data-n="50">
+        <div class="card-number">50</div>
+        <div class="card-header">
+          <div class="card-meta">
+            <div class="card-date">Marzo 2026 — Oggi</div>
+            <span class="card-category">Consapevolezza</span>
+          </div>
+          <span class="card-geo">🌍</span>
+        </div>
+        <h3>E adesso? La domanda che nessuno vuole rispondere</h3>
+        <p>In 40 mesi l'AI è passata da esperimento accademico a infrastruttura della civiltà. Ha diagnosticato tumori e costruito armi. Ha fatto risparmiare tempo agli impiegati e tolto lavoro ai creativi. Ha arricchito sei aziende americane e spaventato i legislatori europei. Ogni settimana c'è un evento che "cambia tutto". La vera domanda non è cosa può fare l'AI — è cosa vogliamo fare noi con essa. E chi decide.</p>
+        <div class="card-source"><strong>Fonte:</strong> Sintesi editoriale · Marzo 2026</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <div style="margin-bottom:8px;">AI: 3 Anni che hanno cambiato tutto &nbsp;·&nbsp; 50 fatti documentati &nbsp;·&nbsp; Nov 2022 — Mar 2026</div>
+  <div>Reportage curato per formazione e consapevolezza civica &nbsp;·&nbsp; Fonti: Reuters, Il Post, Wired Italia, Bloomberg, Garante Privacy, Parlamento Europeo, OpenAI, Anthropic, Appfigures e altre.</div>
+</footer>
+
+<script>
+  let activeFilter = 'all';
+
+  function filterCards(type, btn) {
+    activeFilter = type;
+    // update buttons
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const cards = document.querySelectorAll('.card');
+    let visible = 0;
+    cards.forEach(card => {
+      let show = false;
+      if (type === 'all') {
+        show = true;
+      } else if (type === 'positive' || type === 'negative' || type === 'neutral') {
+        show = card.classList.contains(type);
+      } else if (type === 'geo-it') {
+        show = card.classList.contains('geo-it');
+      } else if (type === 'geo-eu') {
+        show = card.classList.contains('geo-eu') || card.classList.contains('geo-it');
+      } else if (type === 'geo-us') {
+        show = card.classList.contains('geo-us');
+      } else if (type === 'geo-cn') {
+        show = card.classList.contains('geo-cn');
+      }
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    document.getElementById('counter').textContent = visible + ' / 50';
+  }
+</script>
+
+</body>
+</html>
